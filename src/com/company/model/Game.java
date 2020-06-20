@@ -4,14 +4,16 @@ public class Game {
     Map gameMap;
     Turns turns;
 
-    int monsters;
-    int pointsRemaining;
-    int powerLevel;
+    private int monsters;
+    private int pointsNeeded;
+    private int powerLevel;
+    private boolean gameWon;
 
     public Game(){
         monsters = 3;
-        pointsRemaining = 3;
+        pointsNeeded = 3;
         powerLevel = 0;
+        gameWon = false;
         MapGenerator mapGenerator = new MapGenerator();
         gameMap = new Map(mapGenerator.generateMaze(18,13));
         turns = new Turns();
@@ -36,6 +38,12 @@ public class Game {
         if(powerLevel < 0){
             return false;
         }
+        int monstersLeft = turns.monstersLeft();
+        pointsNeeded -= monsters - monstersLeft;
+        monsters = monstersLeft;
+        if(pointsNeeded <= 0){
+            gameWon = true;
+        }
         return true;
     }
 
@@ -43,12 +51,16 @@ public class Game {
         return turns.validMove(gameMap, direction);
     }
 
+    public void cheat(){
+        pointsNeeded = 1;
+    }
+
     public int getMonsters() {
         return monsters;
     }
 
     public int getPointsRemaining() {
-        return pointsRemaining;
+        return pointsNeeded;
     }
 
     public int getPowerLevel() {

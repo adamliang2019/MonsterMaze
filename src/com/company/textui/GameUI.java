@@ -17,6 +17,33 @@ public class GameUI {
         System.out.println("Enter your move [WASD?]:");
     }
 
+    protected void invalidDirection(){
+        System.out.println("Invalid move: you cannot move through walls!");
+    }
+
+    protected void invalidOption(){
+        System.out.println("Invalid option, press '?' for help");
+    }
+
+    protected void cheat(){
+        System.out.println("Cheat Code Entered, One Kill Required");
+    }
+
+    protected void printInstructions(){
+        System.out.println("DIRECTIONS:\n   Kill 3 Monsters!\n");
+        System.out.println("LEGEND:\n" +
+                "   #: Wall\n" +
+                "   @: You (the hero)\n" +
+                "   !: Monster\n" +
+                "   $: Power\n" +
+                "   .: Unexplored space");
+        System.out.println("MOVES:\n   Use W (up), A (left), S (down) and D (right) to move.\n  (You must press enter after each move).\n");
+        System.out.println("ADDITIONAL:\n" +
+                "   ?: Help\n" +
+                "   m: Uncover Entire Map" +
+                "   c: Cheat Code");
+    }
+
     protected void printMap(int[][] map){
         for(int row = 0; row < map.length; row++){
             StringBuilder column = new StringBuilder();

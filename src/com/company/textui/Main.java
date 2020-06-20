@@ -8,12 +8,31 @@ public class Main {
         GameUI ui = new GameUI();
         UserInput inputHelper = new UserInput();
         boolean gameActive = true;
+        boolean updated = true;
         while(gameActive) {
-            ui.printMap(game.getMap());
-            ui.printStats(game);
+            if(updated) {
+                ui.printMap(game.getMap());
+                ui.printStats(game);
+                updated = false;
+            }
             int input = inputHelper.getInput(ui);
-            if (input < 4 && game.validTurn(input)) {
-                gameActive = game.advanceTurn(input);
+            if (input < 4) {
+                if(game.validTurn(input)) {
+                    gameActive = game.advanceTurn(input);
+                    updated = true;
+                }else{
+                    ui.invalidDirection();
+                }
+            }else if(input == 4){
+                ui.printInstructions();
+            }else if(input == 5){
+                game.fullyExplore();
+                updated = true;
+            }else if(input == 6){
+                game.cheat();
+                ui.cheat();
+            }else{
+                ui.invalidOption();
             }
         }
         ui.printMap(game.getMap());

@@ -2,6 +2,7 @@ package com.company.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Stack;
 
 public class MapGenerator {
@@ -43,6 +44,20 @@ public class MapGenerator {
         maze[1][numCols-2] = 3;
         maze[numRows-2][numCols-2] = 3;
         maze[numRows-2][1] = 3;
+
+        Random rand = new Random();
+        boolean validLocation = false;
+        int powerRow = 0;
+        int powerCol = 0;
+        while(!validLocation){
+            // borders are all walls
+            powerRow = rand.nextInt(numRows-2)+1;
+            powerCol = rand.nextInt(numCols-2)+1;
+            if(maze[powerRow][powerCol]==1){
+                validLocation = true;
+            }
+        }
+        maze[powerRow][powerCol] = 4;
 
         int[][] copy = maze.clone();
         return copy;

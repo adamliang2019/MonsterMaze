@@ -38,8 +38,8 @@ public class Map {
     protected void setValue(int value, int row, int col){
         map[row][col] = value;
         if(value == 2) {
-            for (int r = row-1; r < row + 1; r++) {
-                for (int c = col-1; c < col + 1; c++) {
+            for (int r = row-1; r <= row + 1; r++) {
+                for (int c = col-1; c <= col + 1; c++) {
                     if (inBounds(r, c)) {
                         explored[r][c] = 1;
                     }
@@ -64,7 +64,7 @@ public class Map {
         int[][] copy = new int[map.length][map[0].length];
         for(int r=0;r<map.length;r++){
             for(int c=0; c<map[0].length; c++){
-                if(map[r][c] == 2 || map[r][c] == 3){
+                if(map[r][c] == 2 || map[r][c] == 3 || map[r][c] == 4){
                     copy[r][c] = map[r][c];
                 }else {
                     if (explored[r][c] == 1) {

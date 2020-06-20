@@ -2,22 +2,23 @@ package com.company.model;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Turns {
-    int[] heroRC = {1,1};
-    ArrayList<int[]> monsterRCList;
+    private int[] heroRC = {1,1};
+    private ArrayList<Monster> monsterRCList;
 
-    final int EMPTY = 1;
-    final int HERO = 2;
-    final int MONSTER = 3;
-    final int POWERUP = 4;
-    final int GRAVE = 5;
+    private final int EMPTY = 1;
+    private final int HERO = 2;
+    private final int MONSTER = 3;
+    private final int POWERUP = 4;
+    private final int GRAVE = 5;
 
     public Turns(){
         monsterRCList = new ArrayList<>();
-        int[] monster1RC = {16,11};
-        int[] monster2RC = {16,1};
-        int[] monster3RC = {1,11};
+        Monster monster1RC = new Monster(16,11);
+        Monster monster2RC = new Monster(16,1);
+        Monster monster3RC = new Monster(1,11);
         monsterRCList.add(monster1RC);
         monsterRCList.add(monster2RC);
         monsterRCList.add(monster3RC);
@@ -84,56 +85,40 @@ public class Turns {
     protected int monsterTurn(Map gameMap, int powerLevel){
         Random rand = new Random();
         int totalPowerUsed = 0;
-        for(int[] monster : monsterRCList){
-            ArrayList<int[]> newPositions = new ArrayList<>();
-            if(gameMap.getValue(monster[0]+1,monster[1])!=0){
-                int[] newPosition = {monster[0]+1,monster[1]};
-                newPositions.add(newPosition);
-            }
-            if(gameMap.getValue(monster[0]-1,monster[1])!=0){
-                int[] newPosition = {monster[0]-1,monster[1]};
-                newPositions.add(newPosition);
-            }
-            if(gameMap.getValue(monster[0],monster[1]+1)!=0){
-                int[] newPosition = {monster[0],monster[1]+1};
-                newPositions.add(newPosition);
-            }
-            if(gameMap.getValue(monster[0],monster[1]-1)!=0){
-                int[] newPosition = {monster[0],monster[1]-1};
-                newPositions.add(newPosition);
-            }
-            int[] newPosition = newPositions.get(rand.nextInt(newPositions.size()));
-            gameMap.setValue(EMPTY,monster[0],monster[1]);
-            monster = newPosition;
+        Stack<Monster> monsterStack = new Stack<Monster>();
+        monsterStack.addAll(monsterRCList);
+        while(!monsterStack.isEmpty()){
+            Monster monster = monsterStack.pop();
+            gameMap.setValue(EMPTY,monster.getRow(),monster.getCol());
+            int[] newPosition = monster.randomValidMove(gameMap,rand);
+            monster.move(newPosition[0],newPosition[1]);
             int powerUsed = fightMonsters();
             totalPowerUsed += powerUsed;
             if(powerUsed==0){
-                gameMap.setValue(MONSTER,monster[0],monster[1]);
+                gameMap.setValue(MONSTER,monster.getRow(),monster.getCol());
             }else {
-                if (powerUsed <= powerLevel) {
-                    monsterRCList.remove(monster);
-                } else {
-                    gameMap.setValue(GRAVE,monster[0],monster[1]);
+                if (powerUsed > powerLevel) {
+                    gameMap.setValue(GRAVE,monster.getRow(),monster.getCol());
                 }
             }
-
         }
+
         return totalPowerUsed;
     }
 
     private int fightMonsters(){
         int powerUsed = 0;
-        ArrayList<int[]> toRemove = new ArrayList<>();
-        for(int[] monster : monsterRCList) {
-            if (monster[0] == heroRC[0] && monster[1] == heroRC[1]) {
+        ArrayList<Monster> toRemove = new ArrayList<>();
+        for(Monster monster : monsterRCList) {
+            if (monster.getRow() == heroRC[0] && monster.getCol() == heroRC[1]) {
                 powerUsed++;
                 toRemove.add(monster);
             }
         }
-        for(int[] monster : toRemove){
+        for(Monster monster : toRemove){
             monsterRCList.remove(monster);
         }
-        return  powerUsed;
+        return powerUsed;
     }
 
     private int getPower(Map gameMap){
@@ -175,5 +160,9 @@ public class Turns {
             }
         }
         return true;
+    }
+
+    protected int monstersLeft(){
+        return monsterRCList.size();
     }
 }
