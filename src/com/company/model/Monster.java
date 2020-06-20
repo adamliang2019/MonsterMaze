@@ -27,7 +27,7 @@ public class Monster {
         }
         if(gameMap.getValue(row-1,col)!=0){     //up
             int[] newPosition = {row-1,col,1};
-            if(lastMove != 4) {
+            if(lastMove != 3) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;

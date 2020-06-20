@@ -14,11 +14,11 @@ public class Turns {
     private final int POWERUP = 4;
     private final int GRAVE = 5;
 
-    public Turns(){
+    public Turns(Map map){
         monsterRCList = new ArrayList<>();
-        Monster monster1RC = new Monster(16,11);
-        Monster monster2RC = new Monster(16,1);
-        Monster monster3RC = new Monster(1,11);
+        Monster monster1RC = new Monster(map.numRows()-2,map.numCols()-2);
+        Monster monster2RC = new Monster(map.numRows()-2,1);
+        Monster monster3RC = new Monster(1,map.numCols()-2);
         monsterRCList.add(monster1RC);
         monsterRCList.add(monster2RC);
         monsterRCList.add(monster3RC);
@@ -33,7 +33,7 @@ public class Turns {
             gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
             heroRC[1]--;
             powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters();
+            powerUsed += fightMonsters(powerLevel);
             if(powerLevel<powerUsed){
                 gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
             }else{
@@ -46,7 +46,7 @@ public class Turns {
             gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
             heroRC[0]--;
             powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters();
+            powerUsed += fightMonsters(powerLevel);
             if(powerLevel<powerUsed){
                 gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
             }else{
@@ -59,7 +59,7 @@ public class Turns {
             gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
             heroRC[1]++;
             powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters();
+            powerUsed += fightMonsters(powerLevel);
             if(powerLevel<powerUsed){
                 gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
             }else{
@@ -72,7 +72,7 @@ public class Turns {
             gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
             heroRC[0]++;
             powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters();
+            powerUsed += fightMonsters(powerLevel);
             if(powerLevel<powerUsed){
                 gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
             }else{
@@ -92,7 +92,7 @@ public class Turns {
             gameMap.setValue(EMPTY,monster.getRow(),monster.getCol());
             int[] newPosition = monster.randomValidMove(gameMap,rand);
             monster.move(newPosition[0],newPosition[1]);
-            int powerUsed = fightMonsters();
+            int powerUsed = fightMonsters(powerLevel);
             totalPowerUsed += powerUsed;
             if(powerUsed==0){
                 gameMap.setValue(MONSTER,monster.getRow(),monster.getCol());
@@ -106,13 +106,15 @@ public class Turns {
         return totalPowerUsed;
     }
 
-    private int fightMonsters(){
+    private int fightMonsters(int powerlevel){
         int powerUsed = 0;
         ArrayList<Monster> toRemove = new ArrayList<>();
         for(Monster monster : monsterRCList) {
             if (monster.getRow() == heroRC[0] && monster.getCol() == heroRC[1]) {
                 powerUsed++;
-                toRemove.add(monster);
+                if(powerUsed<=powerlevel) {
+                    toRemove.add(monster);
+                }
             }
         }
         for(Monster monster : toRemove){

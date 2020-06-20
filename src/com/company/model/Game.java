@@ -15,8 +15,8 @@ public class Game {
         powerLevel = 0;
         gameWon = false;
         MapGenerator mapGenerator = new MapGenerator();
-        gameMap = new Map(mapGenerator.generateMaze(18,13));
-        turns = new Turns();
+        gameMap = new Map(mapGenerator.generateMaze(20,15));
+        turns = new Turns(gameMap);
     }
 
     public int[][] getMap(){
@@ -31,11 +31,13 @@ public class Game {
         int powerUsed = turns.heroTurn(gameMap, direction, powerLevel);
         powerLevel -= powerUsed;
         if(powerLevel < 0){
+            powerLevel = 0;
             return false;
         }
         powerUsed = turns.monsterTurn(gameMap, powerLevel);
         powerLevel -= powerUsed;
         if(powerLevel < 0){
+            powerLevel = 0;
             return false;
         }
         int monstersLeft = turns.monstersLeft();
@@ -65,5 +67,9 @@ public class Game {
 
     public int getPowerLevel() {
         return powerLevel;
+    }
+
+    public boolean gameWon(){
+        return gameWon;
     }
 }

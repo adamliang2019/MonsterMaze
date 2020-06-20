@@ -30,7 +30,7 @@ public class GameUI {
     }
 
     protected void printInstructions(){
-        System.out.println("DIRECTIONS:\n   Kill 3 Monsters!\n");
+        System.out.println("DIRECTIONS:\n   Kill 3 Monsters! (Killing a monster uses up one power level)\n   Collect Power to increase power level!");
         System.out.println("LEGEND:\n" +
                 "   #: Wall\n" +
                 "   @: You (the hero)\n" +
@@ -42,6 +42,14 @@ public class GameUI {
                 "   ?: Help\n" +
                 "   m: Uncover Entire Map" +
                 "   c: Cheat Code");
+    }
+
+    protected void gameWon(){
+        System.out.println("Congratulations!\nYou Win Nothing!");
+    }
+
+    protected void gameLost(){
+        System.out.println("Game Over\nI'm sorry, you have been eaten!");
     }
 
     protected void printMap(int[][] map){

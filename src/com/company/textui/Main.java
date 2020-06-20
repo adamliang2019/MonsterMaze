@@ -9,6 +9,8 @@ public class Main {
         UserInput inputHelper = new UserInput();
         boolean gameActive = true;
         boolean updated = true;
+
+        ui.printInstructions();
         while(gameActive) {
             if(updated) {
                 ui.printMap(game.getMap());
@@ -35,7 +37,14 @@ public class Main {
                 ui.invalidOption();
             }
         }
+        game.fullyExplore();
         ui.printMap(game.getMap());
+        ui.printStats(game);
+        if(game.gameWon()){
+            ui.gameWon();
+        }else{
+            ui.gameLost();
+        }
     }
 
 
