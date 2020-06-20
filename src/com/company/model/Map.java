@@ -13,8 +13,8 @@ import java.util.Arrays;
 public class Map {
     private int[][] map;        // {0:wall,1:open,2:hero,3:monster,4:powerup,5:grave}
     private int[][] explored;   // {0:not explored, 1:explored
-    int numRows;
-    int numCols;
+    private int numRows;
+    private int numCols;
 
     public Map(int[][] generated){
         numRows = generated.length;
@@ -37,10 +37,12 @@ public class Map {
 
     protected void setValue(int value, int row, int col){
         map[row][col] = value;
-        for(int r = row; r <= row+1; r++){
-            for(int c = col; c <= col+1; c++) {
-                if(inBounds(r,c)) {
-                    explored[r][c] = 1;
+        if(value == 2) {
+            for (int r = row-1; r < row + 1; r++) {
+                for (int c = col-1; c < col + 1; c++) {
+                    if (inBounds(r, c)) {
+                        explored[r][c] = 1;
+                    }
                 }
             }
         }
@@ -48,6 +50,14 @@ public class Map {
 
     protected int getValue(int row, int col){
         return map[row][col];
+    }
+
+    protected int numRows(){
+        return numRows;
+    }
+
+    protected int numCols(){
+        return numCols;
     }
 
     protected int[][] getDisplayMap(){

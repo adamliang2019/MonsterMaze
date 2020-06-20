@@ -3,6 +3,7 @@ package com.company.model;
 public class Game {
     Map gameMap;
     Turns turns;
+
     int monsters;
     int pointsRemaining;
     int powerLevel;
@@ -40,5 +41,17 @@ public class Game {
 
     public boolean validTurn(int direction){
         return turns.validMove(gameMap, direction);
+    }
+
+    public int getMonsters() {
+        return monsters;
+    }
+
+    public int getPointsRemaining() {
+        return pointsRemaining;
+    }
+
+    public int getPowerLevel() {
+        return powerLevel;
     }
 }

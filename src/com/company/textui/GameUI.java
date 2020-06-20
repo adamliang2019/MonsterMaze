@@ -1,14 +1,26 @@
 package com.company.textui;
 
+import com.company.model.Game;
+
 public class GameUI {
     public GameUI(){
 
     }
 
+    protected void printStats(Game currentGame){
+        System.out.println("Number of monsters to be killed: " + currentGame.getPointsRemaining());
+        System.out.println("Current power level: " + currentGame.getPowerLevel());
+        System.out.println("Number of monsters alive: " + currentGame.getMonsters());
+    }
+
+    protected void askInput(){
+        System.out.println("Enter your move [WASD?]:");
+    }
+
     protected void printMap(int[][] map){
-        for(int row = 0; row < map.length-1; row++){
+        for(int row = 0; row < map.length; row++){
             StringBuilder column = new StringBuilder();
-            for(int col = 0; col < map[0].length-1; col++){
+            for(int col = 0; col < map[0].length; col++){
                 switch (map[row][col]){
                     case -1:
                         column.append(".");

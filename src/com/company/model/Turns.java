@@ -1,12 +1,16 @@
 package com.company.model;
 
+import java.util.Random;
 import java.util.ArrayList;
 
 public class Turns {
     int[] heroRC = {1,1};
     ArrayList<int[]> monsterRCList;
-    final int HERO = 2;
+
     final int EMPTY = 1;
+    final int HERO = 2;
+    final int MONSTER = 3;
+    final int POWERUP = 4;
     final int GRAVE = 5;
 
     public Turns(){
@@ -78,8 +82,43 @@ public class Turns {
     }
 
     protected int monsterTurn(Map gameMap, int powerLevel){
-        int powerUsed = 0;
-        return powerUsed;
+        Random rand = new Random();
+        int totalPowerUsed = 0;
+        for(int[] monster : monsterRCList){
+            ArrayList<int[]> newPositions = new ArrayList<>();
+            if(gameMap.getValue(monster[0]+1,monster[1])!=0){
+                int[] newPosition = {monster[0]+1,monster[1]};
+                newPositions.add(newPosition);
+            }
+            if(gameMap.getValue(monster[0]-1,monster[1])!=0){
+                int[] newPosition = {monster[0]-1,monster[1]};
+                newPositions.add(newPosition);
+            }
+            if(gameMap.getValue(monster[0],monster[1]+1)!=0){
+                int[] newPosition = {monster[0],monster[1]+1};
+                newPositions.add(newPosition);
+            }
+            if(gameMap.getValue(monster[0],monster[1]-1)!=0){
+                int[] newPosition = {monster[0],monster[1]-1};
+                newPositions.add(newPosition);
+            }
+            int[] newPosition = newPositions.get(rand.nextInt(newPositions.size()));
+            gameMap.setValue(EMPTY,monster[0],monster[1]);
+            monster = newPosition;
+            int powerUsed = fightMonsters();
+            totalPowerUsed += powerUsed;
+            if(powerUsed==0){
+                gameMap.setValue(MONSTER,monster[0],monster[1]);
+            }else {
+                if (powerUsed <= powerLevel) {
+                    monsterRCList.remove(monster);
+                } else {
+                    gameMap.setValue(GRAVE,monster[0],monster[1]);
+                }
+            }
+
+        }
+        return totalPowerUsed;
     }
 
     private int fightMonsters(){
@@ -99,6 +138,19 @@ public class Turns {
 
     private int getPower(Map gameMap){
         if(gameMap.getValue(heroRC[0], heroRC[1]) == 3){
+            Random rand = new Random();
+            boolean validLocation = false;
+            int row = 0;
+            int col = 0;
+            while(!validLocation){
+                // borders are all walls
+                row = rand.nextInt(gameMap.numRows()-2)+1;
+                col = rand.nextInt(gameMap.numCols()-2)+1;
+                if(gameMap.getValue(row,col)==1){
+                    validLocation = true;
+                }
+            }
+            gameMap.setValue(POWERUP,row,col);
             return 1;
         }
         return 0;
