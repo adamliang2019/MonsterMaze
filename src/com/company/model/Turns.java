@@ -124,7 +124,7 @@ public class Turns {
     }
 
     private int getPower(Map gameMap){
-        if(gameMap.getValue(heroRC[0], heroRC[1]) == 3){
+        if(gameMap.getValue(heroRC[0], heroRC[1]) == POWERUP){
             Random rand = new Random();
             boolean validLocation = false;
             int row = 0;

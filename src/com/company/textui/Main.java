@@ -18,7 +18,7 @@ public class Main {
                 updated = false;
             }
             int input = inputHelper.getInput(ui);
-            if (input < 4) {
+            if (input>=0 && input < 4) {
                 if(game.validTurn(input)) {
                     gameActive = game.advanceTurn(input);
                     updated = true;

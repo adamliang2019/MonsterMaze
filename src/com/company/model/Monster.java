@@ -7,11 +7,13 @@ public class Monster {
     private int row;
     private int col;
     private int lastMove;      //0:left,1:up,2:right,3:down
+    private int covering;
 
     protected Monster(int row, int col){
         this.row = row;
         this.col = col;
         lastMove = -1;
+        covering = 0;
     }
 
     protected int[] randomValidMove(Map gameMap, Random random){
@@ -70,5 +72,13 @@ public class Monster {
     public void move(int row, int col){
         this.row = row;
         this.col = col;
+    }
+
+    public int getCovering(){
+        return covering;
+    }
+
+    public void setCovering(int cell){
+        covering = cell;
     }
 }
