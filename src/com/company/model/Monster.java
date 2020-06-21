@@ -3,49 +3,52 @@ package com.company.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.company.model.Cell.*;
+import static com.company.model.Direction.*;
+
 public class Monster {
     private int row;
     private int col;
     private Direction lastMove;      //0:left,1:up,2:right,3:down
-    private int covering;
+    private Cell covering;
 
     protected Monster(int row, int col){
         this.row = row;
         this.col = col;
         lastMove = null;
-        covering = 1;
+        covering = EMPTY;
     }
 
     protected int[] randomValidMove(Map gameMap, Random random){
         ArrayList<int[]> newPositions = new ArrayList<>();
         int[] backtrackMove = null;
-        if(gameMap.getValue(row+1, col) != 0){     //down
-            int[] newPosition = {row+1, col, Direction.DOWN.integer};
-            if(lastMove != Direction.UP) {
+        if(gameMap.getValue(row+1, col) != WALL){     //down
+            int[] newPosition = {row+1, col, DOWN.integer};
+            if(lastMove != UP) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row-1, col) != 0){     //up
-            int[] newPosition = {row-1, col, Direction.UP.integer};
-            if(lastMove != Direction.DOWN) {
+        if(gameMap.getValue(row-1, col) != WALL){     //up
+            int[] newPosition = {row-1, col, UP.integer};
+            if(lastMove != DOWN) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row, col+1) != 0){     //right
-            int[] newPosition = {row, col+1, Direction.RIGHT.integer};
-            if(lastMove != Direction.LEFT) {
+        if(gameMap.getValue(row, col+1) != WALL){     //right
+            int[] newPosition = {row, col+1, RIGHT.integer};
+            if(lastMove != LEFT) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row, col-1) != 0){     //left
-            int[] newPosition = {row, col-1, Direction.LEFT.integer};
-            if(lastMove != Direction.RIGHT) {
+        if(gameMap.getValue(row, col-1) != WALL){     //left
+            int[] newPosition = {row, col-1, LEFT.integer};
+            if(lastMove != RIGHT) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
@@ -74,11 +77,11 @@ public class Monster {
         this.col = col;
     }
 
-    public int getCovering(){
+    public Cell getCovering(){
         return covering;
     }
 
-    public void setCovering(int cell){
+    public void setCovering(Cell cell){
         covering = cell;
     }
 }

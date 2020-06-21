@@ -1,5 +1,6 @@
 package com.company.textui;
 
+import com.company.model.Cell;
 import com.company.model.Game;
 
 public class GameUI {
@@ -52,30 +53,30 @@ public class GameUI {
         System.out.println("Game Over\nI'm sorry, you have been eaten!");
     }
 
-    protected void printMap(int[][] map){
+    protected void printMap(Cell[][] map){
         for(int row = 0; row < map.length; row++){
             StringBuilder column = new StringBuilder();
             for(int col = 0; col < map[0].length; col++){
                 switch (map[row][col]){
-                    case -1:
+                    case OBSCURED:
                         column.append(".");
                         break;
-                    case 0:
+                    case WALL:
                         column.append("#");
                         break;
-                    case 1:
+                    case EMPTY:
                         column.append(" ");
                         break;
-                    case 2:
+                    case HERO:
                         column.append("@");
                         break;
-                    case 3:
+                    case MONSTER:
                         column.append("!");
                         break;
-                    case 4:
+                    case POWERUP:
                         column.append("$");
                         break;
-                    case 5:
+                    case GRAVE:
                         column.append("X");
                         break;
                     default:

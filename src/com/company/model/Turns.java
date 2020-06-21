@@ -4,48 +4,44 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static com.company.model.Cell.*;
+
 public class Turns {
     private int[] heroRC = {1,1};
-    private ArrayList<Monster> monsterRCList;
-
-    private final int EMPTY = 1;
-    private final int HERO = 2;
-    private final int MONSTER = 3;
-    private final int POWERUP = 4;
-    private final int GRAVE = 5;
+    private ArrayList<Monster> monsterList;
 
     public Turns(Map map){
-        monsterRCList = new ArrayList<>();
+        monsterList = new ArrayList<>();
         Monster monster1RC = new Monster(map.numRows()-2, map.numCols()-2);
         Monster monster2RC = new Monster(map.numRows()-2, 1);
         Monster monster3RC = new Monster(1, map.numCols()-2);
-        monsterRCList.add(monster1RC);
-        monsterRCList.add(monster2RC);
-        monsterRCList.add(monster3RC);
+        monsterList.add(monster1RC);
+        monsterList.add(monster2RC);
+        monsterList.add(monster3RC);
     }
 
     protected int heroTurn(Map gameMap, Direction direction, int powerLevel){
         int powerUsed = 0;
         if(direction == Direction.LEFT){
-            if(gameMap.getValue(heroRC[0], heroRC[1]-1) == 0){
+            if(gameMap.getValue(heroRC[0], heroRC[1]-1) == WALL){
                 return 0;
             }
             gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[1]--;
         }else if(direction == Direction.UP){
-            if(gameMap.getValue(heroRC[0]-1, heroRC[1]) == 0){
+            if(gameMap.getValue(heroRC[0]-1, heroRC[1]) == WALL){
                 return 0;
             }
             gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[0]--;
         }else if(direction == Direction.RIGHT){
-            if(gameMap.getValue(heroRC[0], heroRC[1]+1)==0){
+            if(gameMap.getValue(heroRC[0], heroRC[1]+1) == WALL){
                 return 0;
             }
             gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[1]++;
         }else if(direction == Direction.DOWN){
-            if(gameMap.getValue(heroRC[0]+1, heroRC[1])==0){
+            if(gameMap.getValue(heroRC[0]+1, heroRC[1]) == WALL){
                 return 0;
             }
             gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
@@ -65,10 +61,12 @@ public class Turns {
         Random rand = new Random();
         int totalPowerUsed = 0;
         Stack<Monster> monsterStack = new Stack<>();
-        monsterStack.addAll(monsterRCList);
+        monsterStack.addAll(monsterList);
         while(!monsterStack.isEmpty()){
             Monster monster = monsterStack.pop();
-            gameMap.setValue(monster.getCovering(), monster.getRow(), monster.getCol());
+            if(monster.getCovering() != MONSTER) {      //only first monster in the cell will know what it is covering
+                gameMap.setValue(monster.getCovering(), monster.getRow(), monster.getCol());
+            }
             int[] newPosition = monster.randomValidMove(gameMap, rand);
             monster.move(newPosition[0], newPosition[1]);
             monster.setCovering(gameMap.getValue(newPosition[0], newPosition[1]));
@@ -89,7 +87,7 @@ public class Turns {
     private int fightMonsters(int powerlevel){
         int powerUsed = 0;
         ArrayList<Monster> toRemove = new ArrayList<>();
-        for(Monster monster : monsterRCList) {
+        for(Monster monster : monsterList) {
             if (monster.getRow() == heroRC[0] && monster.getCol() == heroRC[1]) {
                 powerUsed++;
                 if(powerUsed <= powerlevel) {
@@ -98,7 +96,7 @@ public class Turns {
             }
         }
         for(Monster monster : toRemove){
-            monsterRCList.remove(monster);
+            monsterList.remove(monster);
         }
         return powerUsed;
     }
@@ -113,7 +111,7 @@ public class Turns {
                 // borders are all walls
                 row = rand.nextInt(gameMap.numRows()-2)+1;
                 col = rand.nextInt(gameMap.numCols()-2)+1;
-                if(gameMap.getValue(row,col)==1){
+                if(gameMap.getValue(row,col) == EMPTY){
                     validLocation = true;
                 }
             }
@@ -125,19 +123,19 @@ public class Turns {
 
     protected boolean validMove(Map gameMap, Direction direction){
         if(direction == Direction.LEFT) {
-            if (gameMap.getValue(heroRC[0], heroRC[1] - 1) == 0) {
+            if (gameMap.getValue(heroRC[0], heroRC[1] - 1) == WALL) {
                 return false;
             }
         }else if(direction == Direction.UP){
-            if(gameMap.getValue(heroRC[0]-1,heroRC[1])==0){
+            if(gameMap.getValue(heroRC[0]-1,heroRC[1]) == WALL){
                 return false;
             }
         }else if(direction == Direction.RIGHT){
-            if(gameMap.getValue(heroRC[0],heroRC[1]+1)==0){
+            if(gameMap.getValue(heroRC[0],heroRC[1]+1) == WALL){
                 return false;
             }
         }else{
-            if(gameMap.getValue(heroRC[0]+1,heroRC[1])==0){
+            if(gameMap.getValue(heroRC[0]+1,heroRC[1]) == WALL){
                 return false;
             }
         }
@@ -145,6 +143,6 @@ public class Turns {
     }
 
     protected int monstersLeft(){
-        return monsterRCList.size();
+        return monsterList.size();
     }
 }

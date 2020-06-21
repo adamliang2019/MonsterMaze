@@ -19,7 +19,7 @@ public class Game {
         turns = new Turns(gameMap);
     }
 
-    public int[][] getMap(){
+    public Cell[][] getMap(){
         return gameMap.getDisplayMap();
     }
 

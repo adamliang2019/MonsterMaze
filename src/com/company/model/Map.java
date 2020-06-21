@@ -2,21 +2,23 @@ package com.company.model;
 
 import java.util.Arrays;
 
+import static com.company.model.Cell.*;
+
 /***
  * Map Class
- * contains: int[][] game map, int[][]tiles that have been explored
+ * contains: Cell[][] game map, int[][] tiles that have been explored
  * constructor: takes in a generated map and sets the game map to be that map plus a border of walls
  * Methods:
  * getDisplayMap() returns map with -1 where it is unexplored
  * getter and setters for r,c coordinates
  */
 public class Map {
-    private int[][] map;        // {0:wall,1:open,2:hero,3:monster,4:powerup,5:grave}
+    private Cell[][] map;        // {0:wall,1:open,2:hero,3:monster,4:powerup,5:grave}
     private int[][] explored;   // {0:not explored, 1:explored
     private int numRows;
     private int numCols;
 
-    public Map(int[][] generated){
+    public Map(Cell[][] generated){
         numRows = generated.length;
         numCols = generated[0].length;
         map = generated;
@@ -35,9 +37,9 @@ public class Map {
         explored[2][2] = 1;
     }
 
-    protected void setValue(int value, int row, int col){
+    protected void setValue(Cell value, int row, int col){
         map[row][col] = value;
-        if(value == 2) {
+        if(value == HERO) {
             for (int r = row-1; r <= row + 1; r++) {
                 for (int c = col-1; c <= col + 1; c++) {
                     if (inBounds(r, c)) {
@@ -48,7 +50,7 @@ public class Map {
         }
     }
 
-    protected int getValue(int row, int col){
+    protected Cell getValue(int row, int col){
         return map[row][col];
     }
 
@@ -60,17 +62,17 @@ public class Map {
         return numCols;
     }
 
-    protected int[][] getDisplayMap(){
-        int[][] copy = new int[map.length][map[0].length];
+    protected Cell[][] getDisplayMap(){
+        Cell[][] copy = new Cell[map.length][map[0].length];
         for(int r=0;r<map.length;r++){
             for(int c=0; c<map[0].length; c++){
-                if(map[r][c] == 2 || map[r][c] == 3 || map[r][c] == 4){
+                if(map[r][c] == HERO || map[r][c] == MONSTER || map[r][c] == POWERUP){
                     copy[r][c] = map[r][c];
                 }else {
                     if (explored[r][c] == 1) {
                         copy[r][c] = map[r][c];
                     } else {
-                        copy[r][c] = -1;
+                        copy[r][c] = OBSCURED;
                     }
                 }
             }
