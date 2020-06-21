@@ -8,6 +8,7 @@ import java.util.Stack;
 import static com.company.model.Cell.*;
 
 /***
+ * MapGenerator class encapsulates all functionality needed to generate a random maze with loops, but no 2X2 blocks
  * generates maze with depth first search algorithm
  */
 
@@ -35,7 +36,6 @@ public class MapGenerator {
         boolean validMaze = false;
         while(!validMaze) {
             maze = wallMatrix(row, col);
-            System.out.println(maze[0][0]);
             stack.push(new Point(1, 1));
             while (!stack.empty()) {
                 Point current = stack.pop();

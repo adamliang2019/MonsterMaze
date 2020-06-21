@@ -6,7 +6,21 @@ import java.util.Stack;
 
 import static com.company.model.Cell.*;
 
-public class Turns {
+/***
+ * Turns class models the data and functions required to advance a turn
+ * Data:
+ * int[] the row and column location of the hero in the maze
+ * ArrayList<Monster> list of monsters that are still alive
+ * Methods:
+ * Turns(Map map) fills monster list with 3 monsters
+ * int heroTurn   advances the hero one move does all associated actions for the move (fight and collect), returns power used on move
+ * int monsterTurn   advances all living monsters one move does all associated actions for the move, returns power used on moves
+ * int fightMonsters   if sufficient power, kill monsters on same tile as hero, return power used (private)
+ * int getPower   collects power on hero tile and respawn the power if taken, returns power collected (private)
+ * boolean validMove   returns if the hero can move in a certain direction, if there is a wall return false else true
+ */
+
+class Turns {
     private int[] heroRC = {1,1};
     private ArrayList<Monster> monsterList;
 
@@ -47,12 +61,12 @@ public class Turns {
             gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[0]++;
         }
-        powerUsed -= getPower(gameMap);
         powerUsed += fightMonsters(powerLevel);
         if(powerLevel<powerUsed){
             gameMap.setValue(GRAVE, heroRC[0], heroRC[1]);
         }else{
             gameMap.setValue(HERO, heroRC[0], heroRC[1]);
+            powerUsed -= getPower(gameMap);
         }
         return powerUsed;
     }
@@ -77,6 +91,7 @@ public class Turns {
             }else {
                 if (powerUsed > powerLevel) {
                     gameMap.setValue(GRAVE, monster.getRow(), monster.getCol());
+                    break;
                 }
             }
         }

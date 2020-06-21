@@ -6,10 +6,24 @@ import java.util.Random;
 import static com.company.model.Cell.*;
 import static com.company.model.Direction.*;
 
-public class Monster {
+/***
+ * Monster class models an in game monster
+ * Data:
+ * int row of monster
+ * int column of monster
+ * Direction lastMove (to avoid backtracking unless only option)
+ * Cell what was under the monster originally
+ * Methods:
+ * Monster   initializes row, col values (lastMove is null covering is EMPTY
+ * int[] randomValidMove  returns new valid row,col location for monster (avoids backtracking)
+ * void move   sets monster location to new location
+ * getters and setters for row, col, covering
+ */
+
+class Monster {
     private int row;
     private int col;
-    private Direction lastMove;      //0:left,1:up,2:right,3:down
+    private Direction lastMove;
     private Cell covering;
 
     protected Monster(int row, int col){

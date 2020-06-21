@@ -3,6 +3,13 @@ package com.company.textui;
 import static com.company.model.Direction.*;
 import java.util.Scanner;
 
+/***
+ * UserInput Class contains functions required for taking user input
+ * contains a Scanner object
+ * has method for taking option
+ */
+
+
 public class UserInput {
     private Scanner scanner;
     protected UserInput(){

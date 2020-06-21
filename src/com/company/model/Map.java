@@ -6,11 +6,13 @@ import static com.company.model.Cell.*;
 
 /***
  * Map Class
- * contains: Cell[][] game map, int[][] tiles that have been explored
- * constructor: takes in a generated map and sets the game map to be that map plus a border of walls
+ * contains: Cell[][] game map, int[][] tiles that have been explored, numRows, numCols
+ * constructor: takes in a generated map and creates explored
  * Methods:
  * getDisplayMap() returns map with -1 where it is unexplored
- * getter and setters for r,c coordinates
+ * fullyExplore()  sets explored to be all true
+ * inBounds     returns if row, col coordinates are in map
+ * getter and setters for row,col coordinates and map values
  */
 public class Map {
     private Cell[][] map;        // {0:wall,1:open,2:hero,3:monster,4:powerup,5:grave}
@@ -23,6 +25,7 @@ public class Map {
         numCols = generated[0].length;
         map = generated;
         explored = new int[numRows][numCols];
+        //should be able to see border of maze and starting location of hero
         for(int row=0; row<numRows; row++){
             explored[row][0] = 1;
             explored[row][numCols-1] = 1;
