@@ -65,8 +65,8 @@ class Turns {
         if(powerLevel<powerUsed){
             gameMap.setValue(GRAVE, heroRC[0], heroRC[1]);
         }else{
-            gameMap.setValue(HERO, heroRC[0], heroRC[1]);
             powerUsed -= getPower(gameMap);
+            gameMap.setValue(HERO, heroRC[0], heroRC[1]);
         }
         return powerUsed;
     }
