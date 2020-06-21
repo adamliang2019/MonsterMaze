@@ -6,46 +6,46 @@ import java.util.Random;
 public class Monster {
     private int row;
     private int col;
-    private int lastMove;      //0:left,1:up,2:right,3:down
+    private Direction lastMove;      //0:left,1:up,2:right,3:down
     private int covering;
 
     protected Monster(int row, int col){
         this.row = row;
         this.col = col;
-        lastMove = -1;
-        covering = 0;
+        lastMove = null;
+        covering = 1;
     }
 
     protected int[] randomValidMove(Map gameMap, Random random){
         ArrayList<int[]> newPositions = new ArrayList<>();
         int[] backtrackMove = null;
-        if(gameMap.getValue(row+1,col)!=0){     //down
-            int[] newPosition = {row+1,col,3};
-            if(lastMove != 1) {
+        if(gameMap.getValue(row+1, col) != 0){     //down
+            int[] newPosition = {row+1, col, Direction.DOWN.integer};
+            if(lastMove != Direction.UP) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row-1,col)!=0){     //up
-            int[] newPosition = {row-1,col,1};
-            if(lastMove != 3) {
+        if(gameMap.getValue(row-1, col) != 0){     //up
+            int[] newPosition = {row-1, col, Direction.UP.integer};
+            if(lastMove != Direction.DOWN) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row,col+1)!=0){     //right
-            int[] newPosition = {row,col+1,2};
-            if(lastMove != 0) {
+        if(gameMap.getValue(row, col+1) != 0){     //right
+            int[] newPosition = {row, col+1, Direction.RIGHT.integer};
+            if(lastMove != Direction.LEFT) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
             }
         }
-        if(gameMap.getValue(row,col-1)!=0){     //left
-            int[] newPosition = {row,col-1,0};
-            if(lastMove != 2) {
+        if(gameMap.getValue(row, col-1) != 0){     //left
+            int[] newPosition = {row, col-1, Direction.LEFT.integer};
+            if(lastMove != Direction.RIGHT) {
                 newPositions.add(newPosition);
             }else{
                 backtrackMove = newPosition;
@@ -57,7 +57,7 @@ public class Monster {
         }else {
             newPosition = newPositions.get(random.nextInt(newPositions.size()));
         }
-        lastMove = newPosition[2];
+        lastMove = Direction.valueOfInteger(newPosition[2]);
         return newPosition;
     }
 

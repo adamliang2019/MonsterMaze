@@ -1,9 +1,11 @@
 package com.company.textui;
 
+import com.company.model.Direction;
+
 import java.util.Scanner;
 
 public class UserInput {
-    Scanner scanner;
+    private Scanner scanner;
     protected UserInput(){
         scanner = new Scanner(System.in);
     }
@@ -13,13 +15,13 @@ public class UserInput {
         String option = scanner.nextLine();
         option = option.strip().toUpperCase();
         if(option.equals("A")){
-            return 0;
+            return Direction.LEFT.integer;
         }else if(option.equals("W")){
-            return 1;
+            return Direction.UP.integer;
         }else if(option.equals("D")){
-            return 2;
+            return Direction.RIGHT.integer;
         }else if(option.equals("S")){
-            return 3;
+            return Direction.DOWN.integer;
         }else if(option.equals("?")){
             return 4;
         }else if(option.equals("M")){

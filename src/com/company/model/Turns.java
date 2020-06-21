@@ -16,68 +16,47 @@ public class Turns {
 
     public Turns(Map map){
         monsterRCList = new ArrayList<>();
-        Monster monster1RC = new Monster(map.numRows()-2,map.numCols()-2);
-        Monster monster2RC = new Monster(map.numRows()-2,1);
-        Monster monster3RC = new Monster(1,map.numCols()-2);
+        Monster monster1RC = new Monster(map.numRows()-2, map.numCols()-2);
+        Monster monster2RC = new Monster(map.numRows()-2, 1);
+        Monster monster3RC = new Monster(1, map.numCols()-2);
         monsterRCList.add(monster1RC);
         monsterRCList.add(monster2RC);
         monsterRCList.add(monster3RC);
     }
 
-    protected int heroTurn(Map gameMap, int direction, int powerLevel){
+    protected int heroTurn(Map gameMap, Direction direction, int powerLevel){
         int powerUsed = 0;
-        if(direction == 0){
-            if(gameMap.getValue(heroRC[0],heroRC[1]-1)==0){
+        if(direction == Direction.LEFT){
+            if(gameMap.getValue(heroRC[0], heroRC[1]-1) == 0){
                 return 0;
             }
-            gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
+            gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[1]--;
-            powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters(powerLevel);
-            if(powerLevel<powerUsed){
-                gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
-            }else{
-                gameMap.setValue(HERO,heroRC[0],heroRC[1]);
-            }
-        }else if(direction == 1){
-            if(gameMap.getValue(heroRC[0]-1,heroRC[1])==0){
+        }else if(direction == Direction.UP){
+            if(gameMap.getValue(heroRC[0]-1, heroRC[1]) == 0){
                 return 0;
             }
-            gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
+            gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[0]--;
-            powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters(powerLevel);
-            if(powerLevel<powerUsed){
-                gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
-            }else{
-                gameMap.setValue(HERO,heroRC[0],heroRC[1]);
-            }
-        }else if(direction == 2){
-            if(gameMap.getValue(heroRC[0],heroRC[1]+1)==0){
+        }else if(direction == Direction.RIGHT){
+            if(gameMap.getValue(heroRC[0], heroRC[1]+1)==0){
                 return 0;
             }
-            gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
+            gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[1]++;
-            powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters(powerLevel);
-            if(powerLevel<powerUsed){
-                gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
-            }else{
-                gameMap.setValue(HERO,heroRC[0],heroRC[1]);
-            }
-        }else if(direction == 3){
-            if(gameMap.getValue(heroRC[0]+1,heroRC[1])==0){
+        }else if(direction == Direction.DOWN){
+            if(gameMap.getValue(heroRC[0]+1, heroRC[1])==0){
                 return 0;
             }
-            gameMap.setValue(EMPTY,heroRC[0],heroRC[1]);
+            gameMap.setValue(EMPTY, heroRC[0], heroRC[1]);
             heroRC[0]++;
-            powerUsed -= getPower(gameMap);
-            powerUsed += fightMonsters(powerLevel);
-            if(powerLevel<powerUsed){
-                gameMap.setValue(GRAVE,heroRC[0],heroRC[1]);
-            }else{
-                gameMap.setValue(HERO,heroRC[0],heroRC[1]);
-            }
+        }
+        powerUsed -= getPower(gameMap);
+        powerUsed += fightMonsters(powerLevel);
+        if(powerLevel<powerUsed){
+            gameMap.setValue(GRAVE, heroRC[0], heroRC[1]);
+        }else{
+            gameMap.setValue(HERO, heroRC[0], heroRC[1]);
         }
         return powerUsed;
     }
@@ -85,20 +64,21 @@ public class Turns {
     protected int monsterTurn(Map gameMap, int powerLevel){
         Random rand = new Random();
         int totalPowerUsed = 0;
-        Stack<Monster> monsterStack = new Stack<Monster>();
+        Stack<Monster> monsterStack = new Stack<>();
         monsterStack.addAll(monsterRCList);
         while(!monsterStack.isEmpty()){
             Monster monster = monsterStack.pop();
-            gameMap.setValue(EMPTY,monster.getRow(),monster.getCol());
-            int[] newPosition = monster.randomValidMove(gameMap,rand);
-            monster.move(newPosition[0],newPosition[1]);
+            gameMap.setValue(monster.getCovering(), monster.getRow(), monster.getCol());
+            int[] newPosition = monster.randomValidMove(gameMap, rand);
+            monster.move(newPosition[0], newPosition[1]);
+            monster.setCovering(gameMap.getValue(newPosition[0], newPosition[1]));
             int powerUsed = fightMonsters(powerLevel);
             totalPowerUsed += powerUsed;
-            if(powerUsed==0){
-                gameMap.setValue(MONSTER,monster.getRow(),monster.getCol());
+            if(powerUsed == 0){
+                gameMap.setValue(MONSTER, monster.getRow(), monster.getCol());
             }else {
                 if (powerUsed > powerLevel) {
-                    gameMap.setValue(GRAVE,monster.getRow(),monster.getCol());
+                    gameMap.setValue(GRAVE, monster.getRow(), monster.getCol());
                 }
             }
         }
@@ -112,7 +92,7 @@ public class Turns {
         for(Monster monster : monsterRCList) {
             if (monster.getRow() == heroRC[0] && monster.getCol() == heroRC[1]) {
                 powerUsed++;
-                if(powerUsed<=powerlevel) {
+                if(powerUsed <= powerlevel) {
                     toRemove.add(monster);
                 }
             }
@@ -143,16 +123,16 @@ public class Turns {
         return 0;
     }
 
-    protected boolean validMove(Map gameMap, int direction){
-        if(direction == 0) {
+    protected boolean validMove(Map gameMap, Direction direction){
+        if(direction == Direction.LEFT) {
             if (gameMap.getValue(heroRC[0], heroRC[1] - 1) == 0) {
                 return false;
             }
-        }else if(direction == 1){
+        }else if(direction == Direction.UP){
             if(gameMap.getValue(heroRC[0]-1,heroRC[1])==0){
                 return false;
             }
-        }else if(direction == 2){
+        }else if(direction == Direction.RIGHT){
             if(gameMap.getValue(heroRC[0],heroRC[1]+1)==0){
                 return false;
             }

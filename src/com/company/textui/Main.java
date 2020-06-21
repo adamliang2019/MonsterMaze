@@ -36,6 +36,9 @@ public class Main {
             }else{
                 ui.invalidOption();
             }
+            if(game.gameWon()){
+                gameActive = false;
+            }
         }
         game.fullyExplore();
         ui.printMap(game.getMap());

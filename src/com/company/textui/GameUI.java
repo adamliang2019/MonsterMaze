@@ -4,7 +4,7 @@ import com.company.model.Game;
 
 public class GameUI {
     public GameUI(){
-
+        //empty constructor
     }
 
     protected void printStats(Game currentGame){

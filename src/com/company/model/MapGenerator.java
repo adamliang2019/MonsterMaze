@@ -5,11 +5,15 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
+/***
+ * generates maze with depth first search algorithm
+ */
+
 public class MapGenerator {
     private int[][] maze;
     private Stack<Point> stack = new Stack<>();
-    int numRows = 0;
-    int numCols = 0;
+    private int numRows = 0;
+    private int numCols = 0;
 
     public MapGenerator(){
         maze = null;

@@ -27,7 +27,8 @@ public class Game {
         gameMap.fullyExplore();
     }
 
-    public boolean advanceTurn(int direction){
+    public boolean advanceTurn(int directionInt){
+        Direction direction = Direction.valueOfInteger(directionInt);
         int powerUsed = turns.heroTurn(gameMap, direction, powerLevel);
         powerLevel -= powerUsed;
         if(powerLevel < 0){
@@ -49,7 +50,8 @@ public class Game {
         return true;
     }
 
-    public boolean validTurn(int direction){
+    public boolean validTurn(int directionInt){
+        Direction direction = Direction.valueOfInteger(directionInt);
         return turns.validMove(gameMap, direction);
     }
 
