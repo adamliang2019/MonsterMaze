@@ -1,6 +1,12 @@
 package com.company.textui;
 import com.company.model.Game;
 
+/***
+ * Main class contains executable of program
+ * uses Game, GameUI, and UserInput classes to run a maze game
+ */
+
+
 public class Main {
 
     public static void main(String[] args) {

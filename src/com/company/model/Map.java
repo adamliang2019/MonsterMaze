@@ -14,7 +14,7 @@ import static com.company.model.Cell.*;
  * inBounds     returns if row, col coordinates are in map
  * getter and setters for row,col coordinates and map values
  */
-public class Map {
+class Map {
     private Cell[][] map;        // {0:wall,1:open,2:hero,3:monster,4:powerup,5:grave}
     private int[][] explored;   // {0:not explored, 1:explored
     private int numRows;

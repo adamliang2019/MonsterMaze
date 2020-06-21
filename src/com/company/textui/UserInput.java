@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 
 
-public class UserInput {
+class UserInput {
     private Scanner scanner;
     protected UserInput(){
         scanner = new Scanner(System.in);

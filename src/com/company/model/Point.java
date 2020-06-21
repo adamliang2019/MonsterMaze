@@ -1,6 +1,10 @@
 package com.company.model;
 
-public class Point {
+/***
+ * Class Point models information of an immutable point (used in MapGenerator)
+ */
+
+class Point {
     private int row;
     private int col;
 

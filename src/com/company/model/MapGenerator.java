@@ -12,7 +12,7 @@ import static com.company.model.Cell.*;
  * generates maze with depth first search algorithm
  */
 
-public class MapGenerator {
+class MapGenerator {
     private Cell[][] maze;
     private Stack<Point> stack = new Stack<>();
     private int numRows = 0;

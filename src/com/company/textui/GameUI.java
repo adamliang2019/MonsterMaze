@@ -3,7 +3,12 @@ package com.company.textui;
 import com.company.model.Cell;
 import com.company.model.Game;
 
-public class GameUI {
+/***
+ * GameUI class contains all functionality for the text display of the game
+ * can print the game stats, ask for input, error statement, the map, instructions, and game conclusions
+ */
+
+class GameUI {
     public GameUI(){
         //empty constructor
     }
