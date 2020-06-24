@@ -86,7 +86,7 @@ class Monster {
         return col;
     }
 
-    public void move(int row, int col){
+    protected void move(int row, int col){
         this.row = row;
         this.col = col;
     }
@@ -95,7 +95,7 @@ class Monster {
         return covering;
     }
 
-    public void setCovering(Cell cell){
+    protected void setCovering(Cell cell){
         covering = cell;
     }
 }

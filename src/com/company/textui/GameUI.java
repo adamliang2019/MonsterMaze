@@ -9,7 +9,7 @@ import com.company.model.Game;
  */
 
 class GameUI {
-    public GameUI(){
+    protected GameUI(){
         //empty constructor
     }
 

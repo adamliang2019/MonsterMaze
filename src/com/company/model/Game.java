@@ -22,9 +22,8 @@ package com.company.model;
  */
 
 public class Game {
-    Map gameMap;
-    Turns turns;
-
+    private Map gameMap;
+    private Turns turns;
     private int monsters;
     private int pointsNeeded;
     private int powerLevel;

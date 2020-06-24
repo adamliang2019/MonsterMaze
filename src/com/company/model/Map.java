@@ -20,7 +20,7 @@ class Map {
     private int numRows;
     private int numCols;
 
-    public Map(Cell[][] generated){
+    protected Map(Cell[][] generated){
         numRows = generated.length;
         numCols = generated[0].length;
         map = generated;

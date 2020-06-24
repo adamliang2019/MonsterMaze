@@ -18,11 +18,11 @@ class MapGenerator {
     private int numRows = 0;
     private int numCols = 0;
 
-    public MapGenerator(){
+    protected MapGenerator(){
         maze = null;
     }
 
-    public Cell[][] getMaze(){
+    protected Cell[][] getMaze(){
         if(maze==null){
             return null;
         }
@@ -30,7 +30,7 @@ class MapGenerator {
         return copy;
     }
 
-    public Cell[][] generateMaze(int row, int col){
+    protected Cell[][] generateMaze(int row, int col){
         numRows = row;
         numCols = col;
         boolean validMaze = false;

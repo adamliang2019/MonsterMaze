@@ -24,7 +24,7 @@ class Turns {
     private int[] heroRC = {1,1};
     private ArrayList<Monster> monsterList;
 
-    public Turns(Map map){
+    protected Turns(Map map){
         monsterList = new ArrayList<>();
         Monster monster1RC = new Monster(map.numRows()-2, map.numCols()-2);
         Monster monster2RC = new Monster(map.numRows()-2, 1);

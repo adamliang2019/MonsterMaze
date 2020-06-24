@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 class UserInput {
     private Scanner scanner;
+
     protected UserInput(){
         scanner = new Scanner(System.in);
     }
