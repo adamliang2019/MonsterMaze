@@ -1,0 +1,10 @@
+Player Move:
+Direction is taken using UserInput class and is checked using Game's validMove(Direction) method.
+If it is valid. The Direction is passed into Game's advanceTurn(Direct) method.
+Game uses Turns object to make the corresponding hero turn on the Map object.
+The game then updates the game state/stats (win/lose/powerlevel/monsters alive/etc).
+
+Print Map:
+Map object has a method to return a matrix of type Cell where Cell == Cell.obscured where the map is unexplored.
+This Cell matrix is passed from Game to Main, where Main displays the map using GameUI.
+GameUI prints the matrix with a corresponding symbol for each Cell value. (ex. Cell.obscured == ".", Cell.empty == " ")
